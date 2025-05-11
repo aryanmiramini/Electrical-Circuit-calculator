@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electrical Calculator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #2c3e50;
+            margin-top: 0;
+        }
+        .calculator-form {
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        select, input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .input-fields {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            margin-top: 15px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            display: none;
+        }
+        .result h3 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+        .formula {
+            font-style: italic;
+            color: #7f8c8d;
+            margin-top: 10px;
+        }
+        .error {
+            color: #e74c3c;
+            margin-top: 10px;
+            display: none;
+        }
+        .nav-link {
+            display: inline-block;
+            text-decoration: none;
+            color: #3498db;
+            font-weight: 600;
+            padding: 10px 20px;
+            border: 2px solid #3498db;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        .nav-link:hover {
+            background-color: #3498db;
+            color: white;
+        }
+        .advanced-link-container {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Electrical Circuit Calculator</h1>
+        </header>
+        
+        <div class="calculator-form">
+            <div class="form-group">
+                <label for="calculation-type">Calculation Type:</label>
+                <select id="calculation-type">
+                    <option value="power">Power (P) - Watts</option>
+                    <option value="resistance">Resistance (R) - Ohms</option>
+                    <option value="voltage">Voltage (V) - Volts</option>
+                    <option value="current">Current (I) - Amps</option>
+                    <option value="energy">Energy (W) - Joules</option>
+                </select>
+            </div>
+            
+            <div class="input-fields" id="power-fields">
+                <div class="form-group">
+                    <label for="voltage">Voltage (V):</label>
+                    <input type="number" id="voltage" placeholder="Enter voltage in volts">
+                </div>
+                <div class="form-group">
+                    <label for="current">Current (I):</label>
+                    <input type="number" id="current" placeholder="Enter current in amps">
+                </div>
+            </div>
+            
+            <div class="input-fields" id="resistance-fields" style="display: none;">
+                <div class="form-group">
+                    <label for="voltage-r">Voltage (V):</label>
+                    <input type="number" id="voltage-r" placeholder="Enter voltage in volts">
+                </div>
+                <div class="form-group">
+                    <label for="current-r">Current (I):</label>
+                    <input type="number" id="current-r" placeholder="Enter current in amps">
+                </div>
+            </div>
+            
+            <div class="input-fields" id="voltage-fields" style="display: none;">
+                <div class="form-group">
+                    <label for="power-v">Power (P):</label>
+                    <input type="number" id="power-v" placeholder="Enter power in watts">
+                </div>
+                <div class="form-group">
+                    <label for="current-v">Current (I):</label>
+                    <input type="number" id="current-v" placeholder="Enter current in amps">
+                </div>
+            </div>
+            
+            <div class="input-fields" id="current-fields" style="display: none;">
+                <div class="form-group">
+                    <label for="power-i">Power (P):</label>
+                    <input type="number" id="power-i" placeholder="Enter power in watts">
+                </div>
+                <div class="form-group">
+                    <label for="voltage-i">Voltage (V):</label>
+                    <input type="number" id="voltage-i" placeholder="Enter voltage in volts">
+                </div>
+            </div>
+            
+            <div class="input-fields" id="energy-fields" style="display: none;">
+                <div class="form-group">
+                    <label for="power-e">Power (P):</label>
+                    <input type="number" id="power-e" placeholder="Enter power in watts">
+                </div>
+                <div class="form-group">
+                    <label for="time">Time (t):</label>
+                    <input type="number" id="time" placeholder="Enter time in seconds">
+                </div>
+            </div>
+            
+            <button id="calculate-btn">Calculate</button>
+        </div>
+        
+        <div class="result" id="result-container">
+            <h3>Result: <span id="result-value"></span></h3>
+            <p class="formula" id="formula"></p>
+        </div>
+        
+        <div class="error" id="error-message"></div>
+        
+        <div class="advanced-link-container">
+            <a href="/advanced" class="nav-link">Go to Advanced Circuit Solver</a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const calculationType = document.getElementById('calculation-type');
+            const calculateBtn = document.getElementById('calculate-btn');
+            const resultContainer = document.getElementById('result-container');
+            const resultValue = document.getElementById('result-value');
+            const formulaElement = document.getElementById('formula');
+            const errorMessage = document.getElementById('error-message');
+            
+            // Field containers
+            const powerFields = document.getElementById('power-fields');
+            const resistanceFields = document.getElementById('resistance-fields');
+            const voltageFields = document.getElementById('voltage-fields');
+            const currentFields = document.getElementById('current-fields');
+            const energyFields = document.getElementById('energy-fields');
+            
+            calculationType.addEventListener('change', function() {
+                // Hide all field containers
+                powerFields.style.display = 'none';
+                resistanceFields.style.display = 'none';
+                voltageFields.style.display = 'none';
+                currentFields.style.display = 'none';
+                energyFields.style.display = 'none';
+                
+                // Show the selected field container
+                switch(this.value) {
+                    case 'power':
+                        powerFields.style.display = 'grid';
+                        break;
+                    case 'resistance':
+                        resistanceFields.style.display = 'grid';
+                        break;
+                    case 'voltage':
+                        voltageFields.style.display = 'grid';
+                        break;
+                    case 'current':
+                        currentFields.style.display = 'grid';
+                        break;
+                    case 'energy':
+                        energyFields.style.display = 'grid';
+                        break;
+                }
+                
+                // Hide result and error when changing calculation type
+                resultContainer.style.display = 'none';
+                errorMessage.style.display = 'none';
+            });
+            
+            calculateBtn.addEventListener('click', async function() {
+                // Hide previous results and errors
+                resultContainer.style.display = 'none';
+                errorMessage.style.display = 'none';
+                
+                const type = calculationType.value;
+                let data = { type };
+                
+                try {
+                    switch(type) {
+                        case 'power':
+                            data.voltage = parseFloat(document.getElementById('voltage').value);
+                            data.current = parseFloat(document.getElementById('current').value);
+                            break;
+                        case 'resistance':
+                            data.voltage = parseFloat(document.getElementById('voltage-r').value);
+                            data.current = parseFloat(document.getElementById('current-r').value);
+                            break;
+                        case 'voltage':
+                            data.power = parseFloat(document.getElementById('power-v').value);
+                            data.current = parseFloat(document.getElementById('current-v').value);
+                            break;
+                        case 'current':
+                            data.power = parseFloat(document.getElementById('power-i').value);
+                            data.voltage = parseFloat(document.getElementById('voltage-i').value);
+                            break;
+                        case 'energy':
+                            data.power = parseFloat(document.getElementById('power-e').value);
+                            data.time = parseFloat(document.getElementById('time').value);
+                            break;
+                    }
+                    
+                    // Check if any values are NaN
+                    for (const key in data) {
+                        if (key !== 'type' && isNaN(data[key])) {
+                            throw new Error('Please enter valid numbers for all fields');
+                        }
+                    }
+                    
+                    const response = await fetch('/calculate', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (response.ok) {
+                        if (result.result === null) {
+                            throw new Error('Cannot divide by zero');
+                        }
+                        
+                        // Display the result
+                        resultValue.textContent = result.result.toFixed(4) + getUnit(type);
+                        formulaElement.textContent = `Formula: ${result.formula}`;
+                        resultContainer.style.display = 'block';
+                    } else {
+                        throw new Error(result.error || 'An error occurred');
+                    }
+                } catch (error) {
+                    errorMessage.textContent = error.message;
+                    errorMessage.style.display = 'block';
+                }
+            });
+            
+            function getUnit(type) {
+                switch(type) {
+                    case 'power': return ' W';
+                    case 'resistance': return ' Ω';
+                    case 'voltage': return ' V';
+                    case 'current': return ' A';
+                    case 'energy': return ' J';
+                    default: return '';
+                }
+            }
+        });
+    </script>
+</body>
+</html> 
