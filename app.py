@@ -1,8 +1,8 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, url_for
 import math
 import cmath
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 
 def calculate_power(voltage, current):
     """Calculate power using P = V * I"""

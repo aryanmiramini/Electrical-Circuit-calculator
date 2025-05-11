@@ -30,7 +30,7 @@ A comprehensive web application for electrical engineering calculations. This ap
 
 2. Clone this repository:
    ```
-   git clone https://github.com/yourusername/electrical-calculator.git
+   git clone https://github.com/aryanmiramini/electrical-calculator.git
    cd electrical-calculator
    ```
 
